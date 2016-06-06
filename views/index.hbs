@@ -1,0 +1,26 @@
+<button id="getrepos">Get repos</button>
+
+{{#if user}}
+    <h1 class="page-header">Hello {{user.username}}</h1>
+
+    {{#each githubRepos}}
+        <div class="row">
+            <div class="panel">
+                <div class="panel-heading">
+                    <a class="" href="{{html_url}}"><h2>{{name}}</h2></a>
+                    <h2>{{description}}</h2>
+                </div>
+                <div class="panel-body">
+                    <span>{{created_at}}</span>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <h2>No repos</h2>
+    {{/each}}
+
+{{else}}
+    <h1 class="page-header">Main</h1>
+{{/if}}
+
+

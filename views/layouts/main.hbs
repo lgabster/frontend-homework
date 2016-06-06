@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Frontend Homework</title>
+
+    <link rel="stylesheet" href="styles/vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="dist/css/main.css">
+
+    <script src="http://localhost:35729/livereload.js"></script>
+
+    <script src="js/vendor/jquery-2.2.4.js"></script>
+    <script src="js/vendor/handlebars-4-0-5.js"></script>
+    <script src="js/vendor/waypoint.js"></script>
+</head>
+<body>
+    <header>
+        {{> navigation }}
+    </header>
+
+    <main class="container">
+        
+        {{{body}}}
+
+    </main>
+
+    <div id="waypoint">WAYPOINT</div>
+    
+    <footer>
+        {{> footer }}
+    </footer>
+
+
+
+    <script src="dist/templates/template.js"></script>
+    
+    <script src="dist/js/main.js"></script>
+</body>
+</html>
