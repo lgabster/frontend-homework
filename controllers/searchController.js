@@ -17,9 +17,7 @@ module.exports.controller = function(app) {
                     var result = repos
                     result.user = req.user
                     result.queryString = queryString
-                    console.log(result)    
                     res.render('search', result)
-                    
                 })
                 .catch(function(err) {
                     console.log(err)
