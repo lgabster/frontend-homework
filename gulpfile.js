@@ -27,7 +27,8 @@ const paths = {
     scripts: ['public/js/**/*.js', '!public/js/vendor/**', '!gulpfile.js'],
     serverFiles: ['*.js', 'lib/**/*.js', 'controllers/**/*.js', 'helpers/**/*.js', 'services/**/*.js', '!node_modules'],
     styles: ['public/styles/**/*.scss', '!public/styles/vendor/**'],
-    sharedTemplates: ['views/shared/**/*.hbs']
+    sharedTemplates: ['views/shared/**/*.hbs'],
+    templates: ['views/**/*.hbs', '!views/shared/**/*.hbs']
 }
 
 
@@ -93,7 +94,15 @@ gulp.task('compile-templates', function() {
         .pipe(gulp.dest('public/dist/templates'))
         .pipe(connect.reload())
         .pipe(notify({ message: 'Template compile task complete' }))
-});
+})
+
+// template
+gulp.task('hbs', function() {
+    return gulp.src(paths.templates)
+        .pipe(connect.reload())
+})
+
+
 
 // Build task
 gulp.task('build', function(done) {
@@ -146,6 +155,12 @@ gulp.task('watch', function() {
     }).on('change', function (file) {
         gulp.src(file.path)
             .pipe(connect.reload())
+    })
+
+    // Watch templates
+    gulp.watch(paths.templates, function(event) {
+        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
+        gulp.run('hbs')
     })
 })
 

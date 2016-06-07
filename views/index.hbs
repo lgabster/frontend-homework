@@ -1,4 +1,6 @@
 {{#if user}}
+    <h1 class="page-header">Hello {{user.username}}</h1>
+
     <form action='/search'>
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Search for...">
@@ -8,12 +10,9 @@
         </div>
     </form>
 
-    <h1 class="page-header">Hello {{user.username}}</h1>
-
     <div id="repos-wrapper" data-component="fetcher-wrapper">
         {{> repo }}
     </div>
-
 {{else}}
     <h1 class="page-header">Index page</h1>
 {{/if}}
