@@ -34,7 +34,7 @@ gulp.task('server', function(){
         'script': 'app.js'
     }).on('restart', function() {
         gulp.src('*')
-        .pipe(connect.reload())
+            .pipe(connect.reload())
     })
 })
 
@@ -53,26 +53,26 @@ gulp.task('styles', function() {
 
 // Scripts
 gulp.task('scripts', function() {
-  return gulp.src(paths.scripts)
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest('public/dist/js'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(uglify())
-    .pipe(gulp.dest('public/dist/js'))
-    .pipe(connect.reload())
-    .pipe(notify({ message: 'Scripts task complete' }))
+    return gulp.src(paths.scripts)
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest('public/dist/js'))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(uglify())
+        .pipe(gulp.dest('public/dist/js'))
+        .pipe(connect.reload())
+        .pipe(notify({ message: 'Scripts task complete' }))
 })
 
 // Server side scripts
 gulp.task('server-scripts', function() {
-  return gulp.src(paths.scripts)
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(uglify())
-    .pipe(connect.reload())
-    .pipe(notify({ message: 'Server script task complete' }))
+    return gulp.src(paths.scripts)
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        .pipe(uglify())
+        .pipe(connect.reload())
+        .pipe(notify({ message: 'Server script task complete' }))
 })
 
 gulp.task('compile-templates', function() {
@@ -86,6 +86,7 @@ gulp.task('compile-templates', function() {
             noRedeclare: true
         }))
         .pipe(concat('template.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('public/dist/templates'))
         .pipe(connect.reload())
         .pipe(notify({ message: 'Template compile task complete' }))
@@ -105,8 +106,8 @@ gulp.task('connect', function() {
 
 // Clean
 gulp.task('clean', function() {
-  return gulp.src(['public/dist'], {read: false})
-    .pipe(clean())
+    return gulp.src(['public/dist'], {read: false})
+        .pipe(clean())
 })
 
 // Watch
