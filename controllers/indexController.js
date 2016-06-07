@@ -12,6 +12,7 @@ module.exports.controller = (app) => {
         var result = {}
         if (req.user) {
             result.user = req.user
+            result.nextUrl = true
             res.render('index', result)
         } else {
             res.render('index')

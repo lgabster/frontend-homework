@@ -14,7 +14,7 @@ module.exports.controller = function(app) {
         if (req.user) {
             result.user = req.user
             var limit = req.query.limit || 5
-            var offset = req.query.offset || 10
+            var offset = req.query.offset || 0
 
             console.log(limit, offset)
 
@@ -28,15 +28,20 @@ module.exports.controller = function(app) {
 
             request(requestOptions)
                 .then(function(body) {
-                    body = _.slice(body, 0, limit)
-                    result.repos = body
-                    result.mytemplate = res.locals.templates
-                    res.locals.yyy = 'YYYYYYYYYYY'
-                    result.valami = res.locals.yyy
-                    result.akarmi = 'SFSDFSDF'
+                    console.log(Number(offset), body.length)
+                    if (Number(offset) > body.length) {
+                        result.nextUrl = false
+                    } else {
+                        var newOffset = Number(offset) + Number(limit)
+
+                        result.repoLimit = limit
+                        result.repoOffset = newOffset
+                        body = _.slice(body, offset, newOffset)
+                        result.repos = body
+                        result.nextUrl = true
+                    }
                     if (req.xhr) {
-                        console.log('--- result.mytemplate ---')
-                        console.log(result.mytemplate)
+                        console.log(result)
                         res.send(result)
                     } else {
                         res.render('index', result)

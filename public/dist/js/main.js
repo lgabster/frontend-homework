@@ -9,28 +9,41 @@
 
     console.log('init js')
 
-    $('#fetcher').waypoint({
-        element: this,
-        handler: function(direction) {
-            console.log('scroll to waypoint')
-            if (direction === 'down') {
-                fetchRepos()
-            }
-        },
-        offset: $(window).height() + 200,
-        context: window
-    })
+    namespace.autoFetcher = {
+        initialize: function() {
+            $('#fetcher').waypoint({
+                handler: function(direction) {
+                    if($(this.element).data('initialized')) {
+                        return
+                    }
+                    $(this.element).data('initialized', true)
+                    if (direction === 'down') {
+                        console.log('scroll to waypoint')
+                        fetchRepos($(this.element))
+                        this.destroy()
+                    }
+                },
+                offset: $(window).height() + 200,
+                context: window
+            })
+        }
+    }
+    namespace.autoFetcher.initialize()
 
-    var fetchRepos = function() {
+    var fetchRepos = function($el) {
+        var limit = $el.data('limit')
+        var offset = $el.data('offset')
+
         $.get('/repo', {
-            limit: 10,
-            offset: 20
+            limit: limit,
+            offset: offset
         },
         function(data, status) {
-            $.each(data.repos, function(i, repo) {
-                var newItem = namespace.render('repo', repo)
-                $('#repos-wrapper').append(newItem)
-            })
+            $el.remove()
+            var newItem = namespace.render('repo', data)
+            $('#repos-wrapper').append(newItem)
+            namespace.autoFetcher.initialize()
+
         }).fail(function(error) {
             console.error( error )
         })

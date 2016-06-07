@@ -1,3 +1,4 @@
+{{#each repos}}
 <div class="row">
     <div class="panel">
         <div class="panel-heading">
@@ -9,3 +10,8 @@
         </div>
     </div>
 </div>
+{{/each}}
+
+{{#if nextUrl}}
+<a  id="fetcher" data-component="repo-fetcher" data-limit="{{repoLimit}}" data-offset="{{repoOffset}}"></a>
+{{/if}}
