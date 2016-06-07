@@ -9,16 +9,7 @@
 
     console.log('init js')
 
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-            console.log("near bottom!")
-            fetchRepos()
-        } else {
-            $(window).on('scroll')
-        }
-    })
-
-    $('#waypoint').waypoint({
+    $('#fetcher').waypoint({
         element: this,
         handler: function(direction) {
             console.log('scroll to waypoint')
@@ -26,20 +17,23 @@
                 fetchRepos()
             }
         },
-        offset: '200%',
+        offset: $(window).height() + 200,
         context: window
     })
 
     var fetchRepos = function() {
-        $.get('/repo?limit=10&offset=20',
-            function(data, status) {
-                $.each(data.repos, function(i, repo) {
-                    var newItem = namespace.render('repo', repo)
-                    $('#repos-wrapper').append(newItem)
-                })
-            }).fail(function(error) {
-                console.error( error )
+        $.get('/repo', {
+            limit: 10,
+            offset: 20
+        },
+        function(data, status) {
+            $.each(data.repos, function(i, repo) {
+                var newItem = namespace.render('repo', repo)
+                $('#repos-wrapper').append(newItem)
             })
+        }).fail(function(error) {
+            console.error( error )
+        })
     }
 
 })(window, 'homework', jQuery)
