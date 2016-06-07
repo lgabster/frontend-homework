@@ -3,7 +3,7 @@
  */
 'use strict'
 
-const passport = require('passport');
+const passport = require('passport')
 
 module.exports.controller = function(app) {
    
@@ -16,12 +16,12 @@ module.exports.controller = function(app) {
             failureRedirect: '/login',
         }),
         function(req, res) {
-            res.redirect('/');
+            res.redirect('/')
         }
-    );
+    )
 
     app.get('/logout', function(req, res){
-        req.logout();
-        res.redirect('/');
-    });
+        req.logout()
+        res.redirect('/')
+    })
 }

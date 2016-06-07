@@ -36,10 +36,10 @@ module.exports = function(app) {
                     route.controller(app)
                 }
             } else if(fs.lstatSync(fullPath).isDirectory()) {
-                readControllers(fullPath);
+                readControllers(fullPath)
             }
-        });
-    };
+        })
+    }
 
     // view engine setup
     app.engine('hbs', hbs.engine)
@@ -47,23 +47,23 @@ module.exports = function(app) {
     app.set('views', `${__dirname}/views`)
 
     //parsers
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(cookieParser())
 
     //passport
     app.use(session({ 
         secret: 'Virg0HomeWork',
         resave: true,
         saveUninitialized: true
-    }));
-    app.use(passport.initialize());
-    app.use(passport.session());
+    }))
+    app.use(passport.initialize())
+    app.use(passport.session())
 
-    readControllers(ctrlPath);
+    readControllers(ctrlPath)
 
-    app.set('express', express);
+    app.set('express', express)
 
     //path
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public')))
 }

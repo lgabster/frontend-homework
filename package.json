@@ -10,6 +10,7 @@
   "author": "lgabster",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.13.4",
@@ -22,7 +23,8 @@
     "passport-local": "^1.0.0",
     "q": "^1.4.1",
     "request": "^2.72.0",
-    "request-promise": "^3.0.0"
+    "request-promise": "^3.0.0",
+    "run-sequence": "^1.2.1"
   },
   "devDependencies": {
     "gulp-autoprefixer": "^3.1.0",

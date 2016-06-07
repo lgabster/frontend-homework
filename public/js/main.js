@@ -9,6 +9,25 @@
 
     console.log('init js')
 
+    var fetchRepos = function($el) {
+        var limit = $el.data('limit')
+        var offset = $el.data('offset')
+
+        $.get('/repo', {
+            limit: limit,
+            offset: offset
+        },
+        function(data) {
+            $el.remove()
+            var newItem = namespace.render('repo', data)
+            $('#repos-wrapper').append(newItem)
+            namespace.autoFetcher.initialize()
+
+        }).fail(function(error) {
+            console.error( error )
+        })
+    }
+
     namespace.autoFetcher = {
         initialize: function() {
             $('#fetcher').waypoint({
@@ -29,24 +48,5 @@
         }
     }
     namespace.autoFetcher.initialize()
-
-    var fetchRepos = function($el) {
-        var limit = $el.data('limit')
-        var offset = $el.data('offset')
-
-        $.get('/repo', {
-            limit: limit,
-            offset: offset
-        },
-        function(data, status) {
-            $el.remove()
-            var newItem = namespace.render('repo', data)
-            $('#repos-wrapper').append(newItem)
-            namespace.autoFetcher.initialize()
-
-        }).fail(function(error) {
-            console.error( error )
-        })
-    }
 
 })(window, 'homework', jQuery)

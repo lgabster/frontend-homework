@@ -1,8 +1,7 @@
 /**
  * Created by lgabster on 2016.05.31..
  */
-
- 'use strict'
+'use strict'
 
 const express = require('express')
 const app = express()
@@ -17,12 +16,12 @@ const middleware = require('./middleware')
 
 middleware(app)
 
-app.set('port', port);
+app.set('port', port)
 
-let server = http.createServer(app);
-server.listen(port);
+let server = http.createServer(app)
+server.listen(port)
 
 server.on('error', (error) => {
-    console.error(error);
-    process.exit(1);
-});
+    console.error(error)
+    process.exit(1)
+})

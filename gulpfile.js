@@ -1,36 +1,39 @@
+/**
+ * Created by lgabster on 2016.05.29..
+ */
 'use strict'
 
-var gulp = require('gulp')
-var nodemon = require('gulp-nodemon')
-var sass = require('gulp-ruby-sass')
-var autoprefixer = require('gulp-autoprefixer')
-var minifycss = require('gulp-minify-css')
-var jshint = require('gulp-jshint')
-var uglify = require('gulp-uglify')
-var rename = require('gulp-rename')
-var clean = require('gulp-clean')
-var concat = require('gulp-concat')
-var notify = require('gulp-notify')
-var handlebars = require('gulp-handlebars')
-var wrap = require('gulp-wrap')
-var declare = require('gulp-declare')
-var concat = require('gulp-concat')
-var connect = require('gulp-connect')
-var lr = require('tiny-lr')
-var server = lr()
-var lsPort = 35729
+const gulp = require('gulp')
+const nodemon = require('gulp-nodemon')
+const sass = require('gulp-ruby-sass')
+const autoprefixer = require('gulp-autoprefixer')
+const minifycss = require('gulp-minify-css')
+const jshint = require('gulp-jshint')
+const uglify = require('gulp-uglify')
+const rename = require('gulp-rename')
+const clean = require('gulp-clean')
+const concat = require('gulp-concat')
+const notify = require('gulp-notify')
+const handlebars = require('gulp-handlebars')
+const wrap = require('gulp-wrap')
+const declare = require('gulp-declare')
+const connect = require('gulp-connect')
+const runSequence = require('run-sequence').use(gulp)
+const lr = require('tiny-lr')
+const server = lr()
+const lsPort = 35729
 
-var paths = {
+const paths = {
     scripts: ['public/js/**/*.js', '!public/js/vendor/**', '!gulpfile.js'],
-    serverFiles: ['*.js', 'lib/**/*.js', 'controllers/**/*.js'],
+    serverFiles: ['*.js', 'lib/**/*.js', 'controllers/**/*.js', 'helpers/**/*.js', 'services/**/*.js', '!node_modules'],
     styles: ['public/styles/**/*.scss', '!public/styles/vendor/**'],
-    templates: ['views/shared/**/*.hbs']
+    sharedTemplates: ['views/shared/**/*.hbs']
 }
 
 
 // Start server
 gulp.task('server', function(){
-    nodemon({
+    return nodemon({
         'script': 'app.js'
     }).on('restart', function() {
         gulp.src('*')
@@ -40,14 +43,14 @@ gulp.task('server', function(){
 
 // Styles
 gulp.task('styles', function() {
-  return sass('public/styles/main.scss')
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('public/dist/css'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(minifycss())
-    .pipe(gulp.dest('public/dist/css'))
-    .pipe(connect.reload())
-    .pipe(notify({ message: 'Styles task complete' }))
+    return sass('public/styles/main.scss')
+        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(gulp.dest('public/dist/css'))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(minifycss())
+        .pipe(gulp.dest('public/dist/css'))
+        .pipe(connect.reload())
+        .pipe(notify({ message: 'Styles task complete' }))
 })
 
 // Scripts
@@ -76,7 +79,7 @@ gulp.task('server-scripts', function() {
 
 // precompiled template files
 gulp.task('compile-templates', function() {
-    return gulp.src(paths.templates)
+    return gulp.src(paths.sharedTemplates)
         .pipe(handlebars({
             handlebars: require('handlebars')
         }))
@@ -93,21 +96,26 @@ gulp.task('compile-templates', function() {
 });
 
 // Build task
-gulp.task('build', ['styles', 'scripts', 'compile-templates'])
+gulp.task('build', function(done) {
+    runSequence('styles', 'scripts', 'compile-templates', function() {
+        done()
+    })
+})
 
 
 // Live-reload
 gulp.task('connect', function() {
-    connect.server({
+    return connect.server({
         root: 'app',
-        livereload: true
+        livereload: true,
+        auto: false
     });
 });
 
 // Clean
 gulp.task('clean', function() {
-    return gulp.src(['public/dist'], {read: false})
-        .pipe(clean())
+    return gulp.src(['public/dist/*'], {read: true})
+        .pipe(clean({force: true}))
 })
 
 // Watch
@@ -130,8 +138,8 @@ gulp.task('watch', function() {
         gulp.run('server-scripts')
     })
 
-    // Watch .js files
-    gulp.watch(paths.templates, function(event) {
+    // Watch shared templates files
+    gulp.watch(paths.sharedTemplates, function(event) {
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
         gulp.run('compile-templates')
 
@@ -143,4 +151,8 @@ gulp.task('watch', function() {
 
 
 // Default task
-gulp.task('default', ['clean', 'build', 'connect', 'server', 'watch'])
+gulp.task('default', function(done) {
+    runSequence('clean', 'build', 'connect', 'server', 'watch', function() {
+        done()
+    })
+})

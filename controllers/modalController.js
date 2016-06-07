@@ -3,7 +3,7 @@
  */
 'use strict'
 
-const request = require('request');
+const request = require('request')
 
 module.exports.controller = function(app) {
 

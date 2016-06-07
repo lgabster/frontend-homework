@@ -8,12 +8,12 @@
         </div>
     </form>
 
-    <h1 class="page-header">Hello {{user.username}}</h1>
+    <h3 class="page-header">Search result: <mark><i>{{queryString}}</i></mark></h3>
 
     <div id="repos-wrapper" data-component="fetcher-wrapper">
         {{> repo }}
     </div>
 
 {{else}}
-    <h1 class="page-header">Index page</h1>
+    <h3 class="page-header">You have no access for search</h3>
 {{/if}}
