@@ -24,7 +24,7 @@ var paths = {
     scripts: ['public/js/**/*.js', '!public/js/vendor/**', '!gulpfile.js'],
     serverFiles: ['*.js', 'lib/**/*.js', 'controllers/**/*.js'],
     styles: ['public/styles/**/*.scss', '!public/styles/vendor/**'],
-    templates: ['views/**/*.hbs']
+    templates: ['views/shared/**/*.hbs']
 }
 
 

@@ -1,6 +1,7 @@
 /**
  * Created by lgabster on 2016.05.31..
  */
+'use strict'
 
 const request = require('request');
 

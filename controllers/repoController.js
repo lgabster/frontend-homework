@@ -1,13 +1,15 @@
 /**
  * Created by lgabster on 2016.05.31..
  */
+'use strict'
 
-const request = require('request-promise');
-const _ = require('lodash');
+const request = require('request-promise')
+const _ = require('lodash')
+const templateMiddleware = require('../lib/templateMiddleware')
 
 module.exports.controller = function(app) {
-    // routing
-    app.get('/repo', function(req, res) {
+
+    app.get('/repo', templateMiddleware, function(req, res) {
         var result = {}
         if (req.user) {
             result.user = req.user
@@ -25,18 +27,25 @@ module.exports.controller = function(app) {
             }
 
             request(requestOptions)
-            .then(function (body) {
-                body = _.slice(body, 0, limit)
-                result.githubRepos = body
-                if (req.xhr) {
-                    res.send(result)
-                }
-                res.render('index', result)
-            })
-            .catch(function(err) {
-                console.log(err)
-                res.render('index', {})
-            })
+                .then(function(body) {
+                    body = _.slice(body, 0, limit)
+                    result.repos = body
+                    result.mytemplate = res.locals.templates
+                    res.locals.yyy = 'YYYYYYYYYYY'
+                    result.valami = res.locals.yyy
+                    result.akarmi = 'SFSDFSDF'
+                    if (req.xhr) {
+                        console.log('--- result.mytemplate ---')
+                        console.log(result.mytemplate)
+                        res.send(result)
+                    } else {
+                        res.render('index', result)
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err)
+                    res.render('index', {})
+                })
         } else {
             res.render('index', {})
         }

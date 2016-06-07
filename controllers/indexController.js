@@ -1,40 +1,18 @@
 /**
  * Created by lgabster on 2016.05.31..
  */
+'use strict'
 
-const request = require('request');
+const request = require('request')
+const templateMiddleware = require('../lib/templateMiddleware')
 
-module.exports.controller = function(app) {
+module.exports.controller = (app) => {
     // routing
-    app.get('/', function(req, res) {
+    app.get('/', templateMiddleware, (req, res) => {
         var result = {}
         if (req.user) {
             result.user = req.user
-
-            var requestOptions = {
-                url: 'https://api.github.com/users/gulpjs/repos',
-                headers: {
-                    'User-Agent': 'Awesome-Electron-App'
-                }
-            }
-
-            request(requestOptions, function (error, response, body) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    var parsedBody = {}
-
-                    try {
-                        parsedBody = JSON.parse(body)
-                    } catch(err) {
-                        console.log(err)
-                    }
-
-                    result.githubRepos = parsedBody
-                }
-
-                res.render('index', result)
-            })
+            res.render('index', result)
         } else {
             res.render('index')
         }
