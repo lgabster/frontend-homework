@@ -46,7 +46,6 @@ gulp.task('styles', function() {
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
     .pipe(gulp.dest('public/dist/css'))
-    //.pipe(livereload(server))
     .pipe(connect.reload())
     .pipe(notify({ message: 'Styles task complete' }))
 })
@@ -75,6 +74,7 @@ gulp.task('server-scripts', function() {
         .pipe(notify({ message: 'Server script task complete' }))
 })
 
+// precompiled template files
 gulp.task('compile-templates', function() {
     return gulp.src(paths.templates)
         .pipe(handlebars({
@@ -133,7 +133,7 @@ gulp.task('watch', function() {
     // Watch .js files
     gulp.watch(paths.templates, function(event) {
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
-        //gulp.run('compile-templates')
+        gulp.run('compile-templates')
 
     }).on('change', function (file) {
         gulp.src(file.path)
