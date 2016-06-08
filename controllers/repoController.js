@@ -1,9 +1,6 @@
 /**
  * Created by lgabster on 2016.05.31..
  */
-/**
- * Created by lgabster on 2016.05.31..
- */
 'use strict'
 
 const _ = require('lodash')

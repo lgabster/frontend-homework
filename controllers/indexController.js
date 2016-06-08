@@ -8,7 +8,7 @@ const templateMiddleware = require('../lib/templateMiddleware')
 
 module.exports.controller = (app) => {
     // routing
-    app.get('/', templateMiddleware, (req, res) => {
+    app.get('/', (req, res) => {
         var result = {}
         if (req.user) {
             result.user = req.user
