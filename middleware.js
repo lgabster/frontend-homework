@@ -53,7 +53,9 @@ module.exports = function(app) {
 
     //passport
     app.use(session({ 
-        secret: 'Virg0HomeWork'
+        secret: 'Virg0HomeWork',
+        resave: true,
+        saveUninitialized: true
     }))
     app.use(passport.initialize())
     app.use(passport.session())
