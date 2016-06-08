@@ -11,6 +11,9 @@ body {
   height: 100%;
   margin: 0 0 100px; }
 
+form {
+  margin-bottom: 2em; }
+
 .panel {
   background-color: #505050;
   color: #C1C1C1;

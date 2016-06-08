@@ -31,10 +31,11 @@ module.exports = {
             }
             return result
         }).catch(function(err) {
-            console.log(err)
+            console.log('err')
             return {
                 nextUrl: false, 
-                repos: {}
+                repos: {},
+                error: 'API error'
             }
         })
     },
@@ -51,7 +52,8 @@ module.exports = {
                 console.log(err)
                 return {
                     nextUrl: false, 
-                    repos: {}
+                    repos: {},
+                    error: 'API error'
                 }
             })
         } else {

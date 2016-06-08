@@ -10,9 +10,9 @@ const _ = require('lodash')
 const templateMiddleware = require('../lib/templateMiddleware')
 const repoService = require('../services/repoService')
 
-module.exports.controller = function(app) {
+module.exports.controller = (app) => {
 
-    app.get('/repo', templateMiddleware, function(req, res) {
+    app.get('/repo', templateMiddleware, (req, res) => {
         var result = {}
         if (req.user) {
             result.user = req.user
@@ -20,20 +20,21 @@ module.exports.controller = function(app) {
             var offset = req.query.offset || 0
 
             repoService.getNextPage(limit, offset)
-                .then(function(repos) {
+                .then((repos) => {
                     result = _.extend({}, result, repos)
+                    console.log(result)
                     if (req.xhr) {
                         res.send(result)
                     } else {
                         res.render('index', result)
                     }
                 })
-                .catch(function(err) {
-                    console.log(err)
-                    res.render('index', {})
+                .catch((err) => {
+                    console.log(error)
+                    res.render('index')
                 })
         } else {
-            res.render('index', {})
+            res.redirect('/')
         }
 
     })

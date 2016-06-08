@@ -20,14 +20,14 @@ const hbs = require('./helpers/handlebarsHelper')
 const ctrlPath = path.join(__dirname, 'controllers')
 
 module.exports = function(app) {
-    // set controllers
+    // set controllers (thx for expat)
     var readControllers = (dir) => {
         console.log('Scanning for controllers ' + dir)
         
         fs.readdirSync(dir).forEach((file) => {
             var fullPath = dir + '/' + file
 
-            if (file.substr(-3) === '.js') {
+            if (path.extname(file) === '.js') {
                 console.log('Loading '+file)
 
                 var route = require(fullPath)
@@ -53,9 +53,7 @@ module.exports = function(app) {
 
     //passport
     app.use(session({ 
-        secret: 'Virg0HomeWork',
-        resave: true,
-        saveUninitialized: true
+        secret: 'Virg0HomeWork'
     }))
     app.use(passport.initialize())
     app.use(passport.session())
